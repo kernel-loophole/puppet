@@ -1,0 +1,29 @@
+name: Zip File on Tag Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  zip-file:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Zip File
+      run: |
+        # Replace 'your-file-or-folder' with the path to the file or folder you want to zip
+        zip -r extension.zip earth/'earth Extension'
+      working-directory: ${{ github.workspace }}
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: extension.zip
+        asset_name: extension.zip
+        asset_content_type: application/zip
+    
